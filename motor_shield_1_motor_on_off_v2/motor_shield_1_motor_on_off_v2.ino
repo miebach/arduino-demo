@@ -23,8 +23,9 @@ void setup() {
 }
 
 void delaySec(int s) {
-  unsigned long ms = s * 1000;
-  delay(ms);
+  for (int seconds = 0; seconds < s; seconds++) {
+    delay(1000);
+  }
 }
 
 void loop() {
