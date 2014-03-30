@@ -25,9 +25,12 @@ int led = 13;
 int forward = 12;
 int brake = 9;   
 
-/* INIT: */
+/* VARS: */
 
 int loop_count;
+
+/* INIT: */
+
 SoftwareSerial mySerial(10, 11); // RX, TX
 
 /* HELPERS: */
@@ -52,19 +55,25 @@ char *sformat(char *fmt, ... ) {
 }
 
 void delaySec(int s, char* msg, int lc) {
-  div_t maxdt = div(s, 60)
-  ;
-  int maxm = maxdt.quot;
-  int maxs = maxdt.rem;
+
+  //prepare on/off time string for log messages:
+  div_t condt = div(onSec, 60);
+  int conm = condt.quot;
+  int cons = condt.rem;
+  div_t coffdt = div(offSec, 60);
+  int coffm = coffdt.quot;
+  int coffs = coffdt.rem;
+  slog(sformat("RUN: %02dm%02ds / PAUSE: %02dm%02ds\n", conm, cons, coffm, coffs));
+  
+  
   for (int seconds = s; seconds > 0; seconds--) {   
     if ( (s - seconds < 6
     ) || (seconds <= 15) || ( seconds % 15 == 0 )) {
       div_t loopdt = div(seconds, 60);
       int loopm = loopdt.quot;
       int loops = loopdt.rem;
-      slog(sformat("Loop no. %d / currently %s for %02dm%02ds / %02dm%02ds left.\n", lc, 
-  
-        msg, maxm, maxs, loopm, loops));
+      slog(sformat("Loop no. %d / currently %s / %02dm%02ds left.\n", 
+        lc, msg, loopm, loops));
     }
     delay(1000);  
   }
@@ -81,7 +90,7 @@ void setup() {
   
   //init loop counter for logging
   loop_count = 0;
-
+ 
   // initialize the digital pins as outputs
   pinMode(led, OUTPUT);  // LED
   // Motor Channel A:
@@ -102,7 +111,6 @@ void loop() {
   delaySec(onSec, "RUNNING", loop_count);
   slogMinus();
 
-
   slog("Stop channel A ...\n");
   digitalWrite(brake, HIGH); // Engage the Brake for Channel A
   digitalWrite(led, LOW);    // Turn the LED off by making the voltage LOW
@@ -112,3 +120,4 @@ void loop() {
   
   loop_count++;
 }
+
