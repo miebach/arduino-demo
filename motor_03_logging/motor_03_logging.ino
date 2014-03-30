@@ -42,8 +42,10 @@ void slogf(char *fmt, ... ) {
 }
 
 void delaySec(int s, char* msg) {
-  for (int seconds = 0; seconds < s; seconds++) {
-    slogf("%s - delay %10d/%%10d seconds ...       \n", msg, seconds, s);
+  for (int seconds = s; seconds > 0; seconds--) {
+    if ( (seconds <= 15) || ( seconds % 15 == 0 )) {
+      slogf("%s - delay %5d / %5d seconds ...       \n", msg, seconds, s);
+    }
     delay(1000);  
   }
 }
@@ -51,9 +53,9 @@ void delaySec(int s, char* msg) {
 /* SETUP: */
 
 void setup() {
-  // Open serial communications and wait for port to open:
+  // Open serial communications
   Serial.begin(9600);
-  while (!Serial) {;} // Leonardo init
+  // while (!Serial) ... // Leonardo only, wait for port to open
   
   slog("Arduino initializing...\n");
 
