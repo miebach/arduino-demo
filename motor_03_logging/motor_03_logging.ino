@@ -8,7 +8,8 @@ Hardware: Arduino Uno with Arduino Motor Shield and 1 motor connected.
 
 /* CONFIG: */
 
-int onSec = 60 * 3;
+int onSec = 20;
+//int onSec = 60 * 3;
 int offSec = 60 * 10;
 
 /* CONSTANTS: */
@@ -42,9 +43,16 @@ void slogf(char *fmt, ... ) {
 }
 
 void delaySec(int s, char* msg) {
-  for (int seconds = s; seconds > 0; seconds--) {
-    if ( (seconds <= 15) || ( seconds % 15 == 0 )) {
-      slogf("%s - delay %5d / %5d seconds ...       \n", msg, seconds, s);
+  div_t maxdt = div(s, 60)
+  ;
+  int maxm = maxdt.quot;
+  int maxs = maxdt.rem;
+  for (int seconds = s; seconds > 0; seconds--) {   
+    if ( (s - seconds < 6 ) || (seconds <= 15) || ( seconds % 15 == 0 )) {
+      div_t loopdt = div(seconds, 60);
+      int loopm = loopdt.quot;
+      int loops = loopdt.rem;
+      slogf("%s - delay 00:%02d:%02d / 00:%02d:%02d ... \n", msg, loopm, loops, maxm, maxs);
     }
     delay(1000);  
   }
