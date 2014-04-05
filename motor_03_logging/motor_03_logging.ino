@@ -10,6 +10,7 @@ Hardware: Arduino Uno with Arduino Motor Shield and 1 motor connected.
 
 int onSec = 60 * 3;
 int offSec = 60 * 7;
+int speed = 255; // full speed = 255
 
 /*
 int onSec = 7;
@@ -105,7 +106,7 @@ void loop() {
   slog("Start channel A ...\n");
   digitalWrite(forward, HIGH); // Establishes forward direction of Channel A
   digitalWrite(brake, LOW);   // Disengage the Brake for Channel A
-  analogWrite(3, 255);   // Spins the motor on Channel A at full speed
+  analogWrite(3, speed);   // Spins the motor on Channel A at the desired speed
   digitalWrite(led, HIGH);   // Turn the LED on (HIGH is the voltage level)
   
   delaySec(onSec, "RUNNING", loop_count);
