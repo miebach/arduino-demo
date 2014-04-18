@@ -48,7 +48,7 @@ void loop() {
 
   // add newline sometimes
   static int counter = 0;
-  if ((++counter & 0x3f) == 0)
+  if ((++counter & 0x3f) == 0) //0x1f = 31, 0x3f = 63
     Serial.println();
 
   delay(DELAY);
