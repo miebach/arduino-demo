@@ -6,25 +6,27 @@ Hardware: Arduino Uno with Arduino Motor Shield and 1 motor connected.
 #include <SoftwareSerial.h>
 #include <stdarg.h>
 
-/* CONFIG: */
+/* CONFIG / CONSTANTS: */
 
 int onSec = 60 * 3;
 int offSec = 60 * 4;
-int speed = 255; // full speed = 255
 
-/*
-int onSec = 7;
-int offSec = 11;
-*/
+#define FORWARD          12  // Pin for Motor A forward
+#define BRAKE             9  // Pin for Motor A brake   
+#define SPEED           255  // Full speed = 255
 
-/* CONSTANTS: */
+#define BUTTON_PIN_A      2  // Pin for Button A
+#define BUTTON_PIN_B      3  // Pin for Button B
+#define DELAY            20  // Button probe - delay in ms
 
-// Pin 13 onboard LED
-int led = 13;
+#define LED              13  // Pin for onboard LED
 
-// motor a:
-int forward = 12;
-int brake = 9;   
+/* HELPERS: */
+
+boolean handle_button(int pin) {
+  int button_pressed = !digitalRead(pin); // pin low -> pressed
+  return button_pressed;
+}
 
 /* VARS: */
 
@@ -93,10 +95,10 @@ void setup() {
   loop_count = 0;
  
   // initialize the digital pins as outputs
-  pinMode(led, OUTPUT);  // LED
+  pinMode(LED, OUTPUT);  // LED
   // Motor Channel A:
-  pinMode(forward, OUTPUT); // Initiates Motor Channel A pin
-  pinMode(brake, OUTPUT); // Initiates Brake Channel A pin 
+  pinMode(FORWARE, OUTPUT); // Initiates Motor Channel A pin
+  pinMode(BRAKE, OUTPUT); // Initiates Brake Channel A pin 
 }
 
 /* MAIN LOOP: */
@@ -104,17 +106,17 @@ void setup() {
 void loop() {
 
   slog("Start channel A ...\n");
-  digitalWrite(forward, HIGH); // Establishes forward direction of Channel A
-  digitalWrite(brake, LOW);   // Disengage the Brake for Channel A
-  analogWrite(3, speed);   // Spins the motor on Channel A at the desired speed
-  digitalWrite(led, HIGH);   // Turn the LED on (HIGH is the voltage level)
+  digitalWrite(FORWARE, HIGH); // Establishes forward direction of Channel A
+  digitalWrite(BRAKE, LOW);   // Disengage the Brake for Channel A
+  analogWrite(3, SPEED);   // Spins the motor on Channel A at the desired speed
+  digitalWrite(LED, HIGH);   // Turn the LED on (HIGH is the voltage level)
   
   delaySec(onSec, "RUNNING", loop_count);
   slogMinus();
 
   slog("Stop channel A ...\n");
-  digitalWrite(brake, HIGH); // Engage the Brake for Channel A
-  digitalWrite(led, LOW);    // Turn the LED off by making the voltage LOW
+  digitalWrite(BRAKE, HIGH); // Engage the Brake for Channel A
+  digitalWrite(LED, LOW);    // Turn the LED off by making the voltage LOW
 
   delaySec(offSec, "PAUSING", loop_count);
   slogMinus();
