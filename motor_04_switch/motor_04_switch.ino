@@ -19,6 +19,7 @@ uint16_t offSec = 60 * 4;
 #define SPEED           255  // Full speed = 255
 
 #define BUTTON_PIN_A      2  // Pin for Button A
+//TODO - probably pin 3 is also used by motor shield? 
 #define BUTTON_PIN_B      3  // Pin for Button B
 #define DELAY            20  // Button probe - delay in ms
 #define DELAYS_PER_SEC   50  // Number of delays per second = 1000 / DELAY
@@ -126,11 +127,9 @@ void delaySec(uint16_t s, char* msg, uint16_t lc) {
       //newline after Button info line(s), only if there was something:
       Serial.println(); 
       any_button = 0;
-    }
-
       slog(sformat("New Values: onSec / offSec = %d / %d \n", 
         onSec, offSec));
-
+    }
   }
 }
 
