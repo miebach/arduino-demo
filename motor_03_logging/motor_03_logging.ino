@@ -9,7 +9,7 @@ Hardware: Arduino Uno with Arduino Motor Shield and 1 motor connected.
 /* CONFIG: */
 
 int onSec = 60 * 3;
-int offSec = 60 * 7;
+int offSec = 60 * 4;
 int speed = 255; // full speed = 255
 
 /*
